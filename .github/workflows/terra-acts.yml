@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - tf-w1-network
+      - tf-chore1-cicd
   pull_request:
 
 jobs:
