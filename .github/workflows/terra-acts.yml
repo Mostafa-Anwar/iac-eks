@@ -23,20 +23,20 @@ jobs:
           sudo apt install terraform 
           terraform version
    
-   
-      - name: Navigate to networking directory
+
+      - name: "Navigate to networking directory"
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         run: |
            ls -al && cd terraform/net
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: cd terraform/net && terraform fmt -check
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: cd terraform/net && terraform init
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: cd terraform/net && terraform validate -no-color
