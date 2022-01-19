@@ -10,7 +10,7 @@ on:
 
 jobs:
   terraform:
-    name: "Terraform"
+    name: "Configure Terraform"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,8 +22,21 @@ jobs:
           sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
           sudo apt install terraform 
           terraform version
-      
-      - name: List folders and files
-        run: |
-           ls -al
 
+  terra-validate:      
+      - name: Navigate to networking directory
+        if: github.ref == 'refs/heads/tf-w1-network'
+        run: |
+           ls -al && cd terraform/net
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
