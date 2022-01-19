@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "Validate and Deploy Infrastructure"
 
 on:
   push:
@@ -22,10 +22,10 @@ jobs:
           sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
           sudo apt install terraform 
           terraform version
-
-  terra-validate:      
+   
+   
       - name: Navigate to networking directory
-        if: github.ref == 'refs/heads/tf-w1-network'
+        if: github.ref == 'refs/heads/tf-chore1-cicd'
         run: |
            ls -al && cd terraform/net
 
