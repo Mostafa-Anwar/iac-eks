@@ -21,4 +21,8 @@ jobs:
           sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
           sudo apt install terraform 
           terraform version
+      
+      - name: List folders and files
+        run: |
+           ls -al
 
