@@ -1,7 +1,7 @@
 data "aws_availability_zones" "available" {}
 provider "aws" {
- # profile = "default"
-  region = var.region
+  # profile = "default"
+  region     = var.region
   access_key = var.acc_key
   secret_key = var.sec_key
 }
@@ -11,14 +11,14 @@ provider "aws" {
 # Create VPC for eks-cluster 
 
 resource "aws_vpc" "eks-cluster" {
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   tags = tomap(
     {
-    Name = var.vpc_name,
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-    Project = var.project_name_tag
-   }
+      Name                                        = var.vpc_name,
+      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      Project                                     = var.project_name_tag
+    }
   )
 
 }
@@ -37,11 +37,11 @@ resource "aws_subnet" "public-subnets" {
 
   tags = tomap(
     {
-    Name = "${var.pub-subs}${count.index + 1}",
-    Tier =  "Public",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-    Project = var.project_name_tag
-    } 
+      Name                                        = "${var.pub-subs}${count.index + 1}",
+      Tier                                        = "Public",
+      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      Project                                     = var.project_name_tag
+    }
   )
 }
 
@@ -57,10 +57,10 @@ resource "aws_subnet" "private-subnets" {
 
   tags = tomap(
     {
-    Name = "${var.priv-subs}${count.index + 1}",
-    Tier = "Private",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-    Project = var.project_name_tag
+      Name                                        = "${var.priv-subs}${count.index + 1}",
+      Tier                                        = "Private",
+      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      Project                                     = var.project_name_tag
     }
   )
 }
@@ -73,7 +73,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.eks-cluster.id
 
   tags = {
-    Name = "prod.eks-igw"
+    Name    = "prod.eks-igw"
     Project = var.project_name_tag
   }
 }
@@ -88,10 +88,10 @@ resource "aws_route_table" "pub-router" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id  
+    gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "prod.eks-public-router"
+    Name    = "prod.eks-public-router"
     Project = var.project_name_tag
   }
 
