@@ -63,28 +63,14 @@ jobs:
           sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
           sudo apt install terraform 
           terraform version
+
+      - name: Terraform Init
+        if: github.ref == 'refs/heads/tf-chore1-cicd'
+        id: init
+        run: cd terraform/net && terraform init
       
       - name: Terraform Validate
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: validate
         run: cd terraform/net && terraform validate -no-color
 
-  terra-init:
-    name: "Initialize terraform directory"
-    needs: terra-validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Terraform cli
-        run: |
-          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
-          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
-          sudo apt install terraform 
-          terraform version
-
-      - name: Terraform Init
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: init
-        run: cd terraform/net && terraform init
