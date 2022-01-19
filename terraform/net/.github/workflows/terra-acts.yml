@@ -1,0 +1,24 @@
+name: "Terraform"
+
+on:
+  push:
+    branches:
+      - main
+      - tf-w1-network
+  pull_request:
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform cli
+        run: |
+          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
+          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
+          sudo apt install terraform 
+          terraform version
+
