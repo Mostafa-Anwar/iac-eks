@@ -29,8 +29,9 @@ jobs:
         run: |
            ls -al && cd terraform/net
 
-
+  terra-fmt:
     name: "Check terraform files format"
+    needs: terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,7 +49,9 @@ jobs:
         id: fmt
         run: cd terraform/net && terraform fmt -check
 
+  terra-validate:
     name: "Validate terraform files"
+    needs: terra-fmt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -66,8 +69,9 @@ jobs:
         id: validate
         run: cd terraform/net && terraform validate -no-color
 
-
+  terra-init:
     name: "Initialize terraform directory"
+    needs: terra-validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
