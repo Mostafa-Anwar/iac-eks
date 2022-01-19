@@ -78,7 +78,7 @@ jobs:
 
 
 
-  terra-validate:
+  terra-plan:
     name: "View terraform plan"
     needs: terra-validate
     runs-on: ubuntu-latest
