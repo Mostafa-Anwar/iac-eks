@@ -10,69 +10,69 @@ on:
 
 jobs:
   terraform:
-    name: "Configure Terraform"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  #   name: "Configure Terraform"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Install Terraform cli
-        run: |
-          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
-          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
-          sudo apt install terraform 
-          terraform version
+  #     - name: Install Terraform cli
+  #       run: |
+  #         sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
+  #         sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
+  #         sudo apt install terraform 
+  #         terraform version
    
 
-      - name: "Navigate to networking directory"
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        run: |
-           ls -al && cd terraform/net
+  #     - name: "Navigate to networking directory"
+  #       if: github.ref == 'refs/heads/tf-chore1-cicd'
+  #       run: |
+  #          ls -al && cd terraform/net
 
-  terra-fmt:
-    name: "Check terraform files format"
-    needs: terraform
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # terra-fmt:
+  #   name: "Check terraform files format"
+  #   needs: terraform
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Install Terraform cli
-        run: |
-          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
-          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
-          sudo apt install terraform 
-          terraform version
+  #     - name: Install Terraform cli
+  #       run: |
+  #         sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
+  #         sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
+  #         sudo apt install terraform 
+  #         terraform version
 
-      - name: Terraform Format
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: fmt
-        run: cd terraform/net && terraform fmt -check
+  #     - name: Terraform Format
+  #       if: github.ref == 'refs/heads/tf-chore1-cicd'
+  #       id: fmt
+  #       run: cd terraform/net && terraform fmt -check
 
-  terra-validate:
-    name: "Validate terraform files"
-    needs: terra-fmt
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # terra-validate:
+  #   name: "Validate terraform files"
+  #   needs: terra-fmt
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Install Terraform cli
-        run: |
-          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
-          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
-          sudo apt install terraform 
-          terraform version
+  #     - name: Install Terraform cli
+  #       run: |
+  #         sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
+  #         sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
+  #         sudo apt install terraform 
+  #         terraform version
 
-      - name: Terraform Init
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: init
-        run: cd terraform/net && terraform init
+  #     - name: Terraform Init
+  #       if: github.ref == 'refs/heads/tf-chore1-cicd'
+  #       id: init
+  #       run: cd terraform/net && terraform init
       
-      - name: Terraform Validate
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: validate
-        run: cd terraform/net && terraform validate -no-color
+  #     - name: Terraform Validate
+  #       if: github.ref == 'refs/heads/tf-chore1-cicd'
+  #       id: validate
+  #       run: cd terraform/net && terraform validate -no-color
 
 
 
@@ -125,7 +125,7 @@ jobs:
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             <details><summary>Show Plan</summary>
             \`\`\`\n
-            ${process.env.PLAN}
+            ${{process.env.PLAN}}
             \`\`\`
             </details>
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
