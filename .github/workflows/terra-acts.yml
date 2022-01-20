@@ -104,6 +104,9 @@ jobs:
         run: cd terraform/net && terraform validate -no-color
 
       - name: Terraform Plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         id: plan
       #  if: github.event_name == 'pull_request'
         run: cd terraform/net && terraform plan -no-color
