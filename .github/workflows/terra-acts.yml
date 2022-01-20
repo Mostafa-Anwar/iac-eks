@@ -108,12 +108,12 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         id: plan
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event_name == 'push'
         run: cd terraform/net && terraform plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@v5
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event_name == 'push'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
