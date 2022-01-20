@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  terraform:
+  # terraform:
   #   name: "Configure Terraform"
   #   runs-on: ubuntu-latest
   #   steps:
