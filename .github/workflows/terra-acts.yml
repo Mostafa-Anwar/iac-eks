@@ -80,7 +80,7 @@ jobs:
 
   terra-plan:
     name: "View terraform plan"
-    needs: terra-validate
+ #   needs: terra-validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
