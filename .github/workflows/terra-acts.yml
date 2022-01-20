@@ -98,6 +98,11 @@ jobs:
         id: init
         run: cd terraform/net && terraform init
 
+      - name: Terraform Validate
+        if: github.ref == 'refs/heads/tf-chore1-cicd'
+        id: validate
+        run: cd terraform/net && terraform validate -no-color
+
       - name: Terraform Plan
         id: plan
       #  if: github.event_name == 'pull_request'
