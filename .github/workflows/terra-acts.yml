@@ -30,6 +30,16 @@ jobs:
         run: |
            ls -al && cd terraform/net
 
+      - name: "Navigate to networking directory"
+        if: github.ref == 'refs/heads/tf-w1-network'
+        run: |
+           ls -al && cd terraform/net
+
+      - name: "Navigate to networking directory"
+        if: github.ref == 'refs/heads/tf-w1-eks'
+        run: |
+           ls -al && cd terraform/eks
+
   terra-fmt:
     name: "Check terraform files format"
     needs: terraform
@@ -50,6 +60,15 @@ jobs:
         id: fmt
         run: cd terraform/net && terraform fmt -check
 
+      - name: Terraform Format network
+        if: github.ref == 'refs/heads/tf-w1-network'
+        id: fmt
+        run: cd terraform/net && terraform fmt -check
+  
+      - name: Terraform Format eks
+        if: github.ref == 'refs/heads/tf-w1-eks'
+        id: fmt
+        run: cd terraform/eks && terraform fmt -check
 
   terra-plan:
     name: "View terraform plan"
