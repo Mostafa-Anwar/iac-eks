@@ -28,10 +28,12 @@ jobs:
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: fmt
         run: |
-           echo "NETWORK"
+           echo "NETWORK format"
            ls -al terraform && cd terraform/net && terraform fmt -check
            echo -en '\n'
-           echo "EKS"
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS format"
            cd ../eks && terraform fmt -check
 
 
@@ -54,20 +56,24 @@ jobs:
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: init
         run: | 
-           echo "NETWORK"
+           echo "NETWORK intialization"
            cd terraform/net && terraform init
            echo -en '\n'
-           echo "EKS"
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS intialization"
            cd ../eks && terraform init
 
       - name: Terraform Validate
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: validate
         run: | 
-           echo "NETWORK"
+           echo "NETWORK validation"
            cd terraform/net && terraform validate -no-color
            echo -en '\n'
-           echo "EKS"
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS validation"
            cd ../eks && terraform validate -no-color
 
       - name: Terraform Plan
@@ -77,10 +83,12 @@ jobs:
         id: plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
-           echo "NETWORK"
+           echo "NETWORK plan"
            cd terraform/net && terraform plan -no-color
            echo -en '\n'
-           echo "EKS"
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS plan"
            cd ../eks && terraform plan -no-color
         continue-on-error: true
 
