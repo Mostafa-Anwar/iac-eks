@@ -30,6 +30,7 @@ jobs:
         run: |
            echo "NETWORK"
            ls -al terraform && cd terraform/net && terraform fmt -check
+           echo -en '\n'
            echo "EKS"
            cd ../eks && terraform fmt -check
 
@@ -55,6 +56,7 @@ jobs:
         run: | 
            echo "NETWORK"
            cd terraform/net && terraform init
+           echo -en '\n'
            echo "EKS"
            cd ../eks && terraform init
 
@@ -64,6 +66,7 @@ jobs:
         run: | 
            echo "NETWORK"
            cd terraform/net && terraform validate -no-color
+           echo -en '\n'
            echo "EKS"
            cd ../eks && terraform validate -no-color
 
@@ -76,6 +79,7 @@ jobs:
         run: |
            echo "NETWORK"
            cd terraform/net && terraform plan -no-color
+           echo -en '\n'
            echo "EKS"
            cd ../eks && terraform plan -no-color
         continue-on-error: true
