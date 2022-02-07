@@ -28,7 +28,7 @@ jobs:
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: fmt
         run: |
-           cd terraform/net && terraform fmt -check && ls -al
+           ls -al && cd terraform/net && terraform fmt -check && ls -al
            cd ../eks && terraform fmt -check
 
 
