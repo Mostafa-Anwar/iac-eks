@@ -87,7 +87,7 @@ jobs:
 
       - name: Terraform Init
         if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: init
+        id: init-cicd
         run: cd terraform/net && terraform init
 
       - name: Terraform Init
@@ -100,10 +100,23 @@ jobs:
         id: init-eks
         run: cd terraform/eks && terraform init
 
+
+
       - name: Terraform Validate
         if: github.ref == 'refs/heads/tf-chore1-cicd'
-        id: validate
+        id: validate-cicd
         run: cd terraform/net && terraform validate -no-color
+
+
+      - name: Terraform Validate
+        if: github.ref == 'refs/heads/tf-w1-net
+        id: validate-net
+        run: cd terraform/net && terraform validate -no-color
+
+      - name: Terraform Validate
+        if: github.ref == 'refs/heads/tf-w3-eks'
+        id: validate-eks
+        run: cd terraform/eks && terraform validate -no-color
 
 
 
@@ -111,7 +124,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        id: plan
+        id: plan-cicd
         if: github.ref == 'refs/heads/tf-chore1-cicd' && github.event_name == 'pull_request' || github.event_name == 'push' 
         run: cd terraform/net && terraform plan -no-color
         continue-on-error: true
@@ -121,7 +134,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        id: plan
+        id: plan-net
         if: github.ref == 'refs/heads/tf-w1-net' && github.event_name == 'pull_request' || github.event_name == 'push' 
         run: cd terraform/net && terraform plan -no-color
         continue-on-error: true
@@ -131,7 +144,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        id: plan
+        id: plan-eks
         if: github.ref == 'refs/heads/tf-w1-eks' && github.event_name == 'pull_request' || github.event_name == 'push'
         run: cd terraform/eks && terraform plan -no-color
         continue-on-error: true
