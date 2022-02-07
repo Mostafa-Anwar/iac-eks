@@ -12,7 +12,6 @@ on:
 jobs:
   terra-fmt:
     name: "Check terraform files format"
-    needs: terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
