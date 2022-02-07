@@ -28,7 +28,9 @@ jobs:
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: fmt
         run: |
+           echo "$(tput setaf 4)$(tput setab 7)NETWORK$(tput sgr 0)"
            ls -al terraform && cd terraform/net && terraform fmt -check
+           echo "$(tput setaf 1)$(tput setab 7)EKS$(tput sgr 0)"
            cd ../eks && terraform fmt -check
 
 
@@ -51,14 +53,18 @@ jobs:
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: init
         run: | 
+           echo "$(tput setaf 4)$(tput setab 7)NETWORK$(tput sgr 0)"
            cd terraform/net && terraform init
+           echo "$(tput setaf 1)$(tput setab 7)EKS$(tput sgr 0)"
            cd ../eks && terraform init
 
       - name: Terraform Validate
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: validate
         run: | 
+           echo "$(tput setaf 4)$(tput setab 7)NETWORK$(tput sgr 0)"
            cd terraform/net && terraform validate -no-color
+           echo "$(tput setaf 1)$(tput setab 7)EKS$(tput sgr 0)"
            cd ../eks && terraform validate -no-color
 
       - name: Terraform Plan
@@ -68,7 +74,9 @@ jobs:
         id: plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
+           echo "$(tput setaf 4)$(tput setab 7)NETWORK$(tput sgr 0)"
            cd terraform/net && terraform plan -no-color
+           echo "$(tput setaf 1)$(tput setab 7)EKS$(tput sgr 0)"
            cd ../eks && terraform plan -no-color
         continue-on-error: true
 
