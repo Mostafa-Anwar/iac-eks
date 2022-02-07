@@ -67,13 +67,13 @@ variable "az2" {
 
 variable "public-subnet-az" {
   type    = list(string)
-  default = [ "10.94.0.0/24", "10.94.1.0/24" ]
+  default = ["10.94.0.0/24", "10.94.1.0/24"]
 }
 
 
 variable "private-subnet-az" {
   type    = list(string)
-  default = [ "10.94.2.0/24", "10.94.3.0/24" ]
+  default = ["10.94.2.0/24", "10.94.3.0/24"]
 }
 
 
@@ -90,17 +90,17 @@ variable "priv-subs" {
 variable "eks_access_rules" {
   default = [
     {
-      port = 22
+      port  = 22
       proto = "tcp"
       cidrs = ["0.0.0.0/0"]
     },
     {
-      port = 80
+      port  = 80
       proto = "tcp"
       cidrs = ["0.0.0.0/0"]
     },
     {
-      port = 443
+      port  = 443
       proto = "tcp"
       cidrs = ["0.0.0.0/0"]
     },
@@ -110,7 +110,7 @@ variable "eks_access_rules" {
 variable "eks_fs_rules" {
   default = [
     {
-      port = 2049
+      port  = 2049
       proto = "tcp"
       cidrs = ["0.0.0.0/0"]
     },
@@ -120,7 +120,7 @@ variable "eks_fs_rules" {
 variable "eks_rds_rules" {
   default = [
     {
-      port = 5432
+      port  = 5432
       proto = "tcp"
       cidrs = ["0.0.0.0/0"]
     },
