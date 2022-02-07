@@ -10,27 +10,6 @@ on:
   pull_request:
 
 jobs:
-  terraform:
-    name: "Configure Terraform"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Terraform cli
-        run: |
-          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
-          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
-          sudo apt install terraform 
-          terraform version
-   
-
-      - name: "Navigate to networking directory"
-        if: github.ref == 'refs/heads/tf-chore1-cicd'
-        run: |
-           ls -al && cd terraform/net
-           ls -al && cd terraform/eks
-
   terra-fmt:
     name: "Check terraform files format"
     needs: terraform
@@ -51,7 +30,7 @@ jobs:
         id: fmt
         run: |
            cd terraform/net && terraform fmt -check
-           cd terraform/eks && terraform fmt -check
+           cd ../eks && terraform fmt -check
 
 
   terra-plan:
@@ -74,14 +53,14 @@ jobs:
         id: init
         run: | 
            cd terraform/net && terraform init
-           cd terraform/eks && terraform init
+           cd ../eks && terraform init
 
       - name: Terraform Validate
         if: github.ref == 'refs/heads/tf-chore1-cicd'
         id: validate
         run: | 
            cd terraform/net && terraform validate -no-color
-           cd terraform/eks && terraform validate -no-color
+           cd ../eks && terraform validate -no-color
 
       - name: Terraform Plan
         env:
@@ -91,7 +70,7 @@ jobs:
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
            cd terraform/net && terraform plan -no-color
-           cd terraform/eks && terraform plan -no-color
+           cd ../eks && terraform plan -no-color
         continue-on-error: true
 
 
