@@ -120,16 +120,16 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           script: |
-            const output = '#### Terraform Format and Style 🖌\'${{ steps.fmt.outcome }}\'
-            #### Terraform Initialization ⚙️\'${{ steps.init.outcome }}\'
-            #### Terraform Validation 🤖\'${{ steps.validate.outcome }}\'
-            #### Terraform Plan 📖\'${{ steps.plan.outcome }}\'
-            <details><summary>Show Plan</summary>
-            \'\'\'\n
-            ${process.env.PLAN}
-            \'\'\'
-            </details>
-            *Pusher: @${{ github.actor }}, Action: \'${{ github.event_name }}\'*';
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}
+      #      <details><summary>Show Plan</summary>
+      #      \`\`\`\n
+      #      ${process.env.PLAN}
+      #      \`\`\`
+      #      </details>
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
