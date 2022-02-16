@@ -1,10 +1,11 @@
 data "aws_availability_zones" "available" {}
-provider "aws" {
+
+#provider "aws" {
   # profile = "default"
-  region     = var.region
-  access_key = var.acc_key
-  secret_key = var.sec_key
-}
+#  region     = var.region
+#  access_key = var.acc_key
+#  secret_key = var.sec_key
+#}
 
 
 

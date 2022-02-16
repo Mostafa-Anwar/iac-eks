@@ -67,7 +67,7 @@ done
 cd $d
 echo "**** REMOTE ****"
 
-RSECTIONS=('net' 'eks')
+RSECTIONS=('net')
 for section in "${RSECTIONS[@]}"
 do
     tabn=`terraform output dynamodb_table_name_$section | tr -d '"'`
@@ -94,8 +94,7 @@ done
 echo "remotes"
 
 # put in place remote state access where required
-cp  generated/remote-net.tf ../net
-cp  generated/remote-eks.tf ../eks
+cp  generated/remote-net.tf ../eks
 
 
 terraform fmt --recursive > /dev/null

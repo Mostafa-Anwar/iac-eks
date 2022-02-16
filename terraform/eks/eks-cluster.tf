@@ -45,10 +45,10 @@ resource "aws_eks_cluster" "eks-cluster" {
     "scheduler",
     ]
   vpc_config {
-#    security_group_ids  = [aws_security_group.sg-eks-cluster.id]
-#    subnet_ids          = aws_subnet.public-subnets[*].id
+#    security_group_ids  = [aws_security_group.sg-eks-cluster.id]   ## to be deleted
+#    subnet_ids          = aws_subnet.public-subnets[*].id          ## to be deleted
     security_group_ids  = [
-      data.terraform_remote_state.net.outputs.sg-access,
+      data.terraform_remote_state.net.outputs.sg-eks-access,
     ]
     subnet_ids          = [
        data.terraform_remote_state.net.outputs.sub-pub1,
