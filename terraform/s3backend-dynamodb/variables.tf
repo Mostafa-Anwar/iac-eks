@@ -163,4 +163,33 @@ variable "eks_rds_rules" {
   ]
 }
 
+variable "key-pair" {
+  description = "Key Pair name to ssh to EC2"
+  default     = "eks-ec2"
+}
+
+
+
+variable "eks-worker-type" {
+  description = "EKS worker nodes ec2 size"
+  default     = "t3a.medium"
+}
+
+
+variable "eks-worker-disk-size" {
+  description = "EKS worker nodes disk size"
+  default     = "50"
+}
+
+
+variable "capacity-type" {
+  description = "Type of capacity associated with the EKS Node Group"
+  default     = "ON_DEMAND"
+}
+
+
+
+variable "eks-version" {
+  default = "1.21"
+}
 

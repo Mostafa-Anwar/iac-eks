@@ -1,15 +1,17 @@
-name: "Terraform"
+name: "Validate and Deploy Infrastructure"
 
 on:
   push:
     branches:
       - main
       - tf-w1-network
+      - tf-w3-eks
+      - tf-chore1-cicd
   pull_request:
 
 jobs:
-  terraform:
-    name: "Terraform"
+  terra-fmt:
+    name: "Check terraform files format"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,3 +24,103 @@ jobs:
           sudo apt install terraform 
           terraform version
 
+      - name: Terraform Format
+        if: github.ref == 'refs/heads/tf-w1-network' || github.ref == 'refs/heads/tf-w1-eks' || github.ref == 'refs/heads/main'
+        id: fmt
+        run: |
+           echo "NETWORK format"
+           ls -al terraform && cd terraform/net && terraform fmt -check
+           echo -en '\n'
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS format"
+           cd ../eks && terraform fmt -check
+
+
+  terra-plan:
+    name: "View terraform plan"
+    needs: terra-fmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform cli
+        run: |
+          sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && sleep 5
+          sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && sleep 10
+          sudo apt install terraform 
+          terraform version
+
+      - name: Terraform Init
+        if: github.ref == 'refs/heads/tf-w1-network' || github.ref == 'refs/heads/tf-w1-eks' || github.ref == 'refs/heads/main'
+        id: init
+        run: | 
+           echo "NETWORK intialization"
+           cd terraform/net && terraform init
+           echo -en '\n'
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS intialization"
+           cd ../eks && terraform init
+
+      - name: Terraform Validate
+        if: github.ref == 'refs/heads/tf-w1-network' || github.ref == 'refs/heads/tf-w1-eks' || github.ref == 'refs/heads/main'
+        id: validate
+        run: | 
+           echo "NETWORK validation"
+           cd terraform/net && terraform validate -no-color
+           echo -en '\n'
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS validation"
+           cd ../eks && terraform validate -no-color
+
+      - name: Terraform Plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        id: plan
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        run: |
+           echo "NETWORK plan"
+           cd terraform/net && terraform plan -no-color
+           echo -en '\n'
+           echo -en '\n'
+           echo -en '\n'
+           echo "EKS plan"
+           cd ../eks && terraform plan -no-color
+        continue-on-error: true
+
+
+
+
+#### TO DO, Fix the automatic comment creation upon PR or push ####
+
+#      - uses: actions/github-script@v5
+#        if: github.event_name == 'pull_request' || github.event_name == 'push'
+#        env:
+#          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        with:
+#          script: |
+#            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+#            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+#            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+#            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+#            <details><summary>Show Plan</summary>
+#            \`\`\`\n
+#            ${process.env.PLAN}
+#            \`\`\`
+#            </details>
+#            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+#            github.rest.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: output
+#            })
+#      - name: Terraform Plan Status
+#        if: steps.plan.outcome == 'failure'
+#        run: exit 1
