@@ -75,6 +75,7 @@ jobs:
            echo -en '\n'
            echo "EKS validation"
            cd ../eks && terraform validate -no-color
+        continue-on-error: true
 
       - name: Terraform Plan
         env:
