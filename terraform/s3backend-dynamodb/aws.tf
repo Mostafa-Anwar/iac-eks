@@ -17,7 +17,7 @@ provider "aws" {
   profile                 = var.profile
   region                  = var.region
   shared_credentials_file = "~/.aws/credentials"
-## To be removed
+  ## To be removed
   #  access_key = var.acc_key
   #  secret_key = var.sec_key
 }

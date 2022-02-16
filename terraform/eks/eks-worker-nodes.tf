@@ -41,21 +41,21 @@ resource "aws_eks_node_group" "kubernetes-workers" {
   cluster_name    = aws_eks_cluster.eks-cluster.name
   node_group_name = "m5axl-eks-workers"
   node_role_arn   = aws_iam_role.eks-node.arn
-#  subnet_ids     = aws_subnet.public-subnets[*].id
-  subnet_ids      = [
-       data.terraform_remote_state.net.outputs.sub-pub1,
-       data.terraform_remote_state.net.outputs.sub-pub2,
-    ]
-  instance_types  = var.eks-worker-type[*]
-  disk_size       = var.eks-worker-disk-size
-  capacity_type   = var.capacity-type
+  #  subnet_ids     = aws_subnet.public-subnets[*].id
+  subnet_ids = [
+    data.terraform_remote_state.net.outputs.sub-pub1,
+    data.terraform_remote_state.net.outputs.sub-pub2,
+  ]
+  instance_types = var.eks-worker-type[*]
+  disk_size      = var.eks-worker-disk-size
+  capacity_type  = var.capacity-type
 
 
   remote_access {
     ec2_ssh_key = var.key-pair
   }
 
-  
+
   scaling_config {
     desired_size = 1
     max_size     = 48
@@ -76,17 +76,17 @@ resource "aws_eks_node_group" "kubernetes-workers" {
 
 data "aws_eks_cluster" "cluster" {
   depends_on = [aws_eks_node_group.kubernetes-workers]
-  name = var.cluster-name
+  name       = var.cluster-name
 }
 
 data "aws_eks_cluster_auth" "cluster" {
-   depends_on = [aws_eks_node_group.kubernetes-workers]
-   name = var.cluster-name
+  depends_on = [aws_eks_node_group.kubernetes-workers]
+  name       = var.cluster-name
 }
 
 data "tls_certificate" "cert" {
   depends_on = [aws_eks_node_group.kubernetes-workers]
-  url = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+  url        = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
 #resource "aws_iam_openid_connect_provider" "openid_connect" {
