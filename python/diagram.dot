@@ -1,0 +1,146 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = "1.0";
+  nodesep = "0.60";
+  ranksep = "0.75";
+  fontname = "Sans-Serif";
+  fontsize = "15";
+  dpi = "200";
+  rankdir = "BT";
+  compound = "true";
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488",
+    penwidth = 2,
+    arrowhead = "dot",
+    arrowtail = "dot",
+  ];
+  node [
+    shape = "box",
+    style = "rounded",
+    fixedsize = true,
+    width = 1.7,
+    height = 1.7,
+    labelloc = "c",
+    imagescale = true,
+    fontname = "Sans-Serif",
+    fontsize = 8,
+    margin = 8,
+  ];
+  subgraph "App" {
+    subgraph "cluster-SubGraph.App" {
+      graph [
+        label = "App",
+        labelloc = "b",
+        labeljust = "l",
+        margin = "10",
+        fontsize = "16",
+        penwidth = "2",
+        pencolor = "#888888",
+        style = "filled,rounded",
+        fillcolor = "#f3f3f3",
+      ];
+      subgraph "cluster-SubGraph.eks-vpc-stack" {
+        graph [
+          label = "eks-vpc-stack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "eks-vpc-stack/eks_vpc" [
+          label = " eks_vpc",
+          fontsize = 12,
+          image = "C:\Program Files\Nodejs\node_modules\cdk-dia\icons\aws\Service\Arch_Networking-Content\64\Arch_Amazon-Virtual-Private-Cloud_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.266,
+        ];
+        "eks-vpc-stack/private-subnet1" [
+          label = " private-subnet1",
+          fontsize = 12,
+        ];
+        "eks-vpc-stack/private-subnet2" [
+          label = " private-subnet2",
+          fontsize = 12,
+        ];
+      }
+      subgraph "cluster-SubGraph.eks-security-stack" {
+        graph [
+          label = "eks-security-stack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "eks-security-stack/sg_eks_access" [
+          label = " sg_eks_access",
+          fontsize = 12,
+          image = "C:\Program Files\Nodejs\node_modules\cdk-dia\icons\aws\security_group.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.266,
+        ];
+        "eks-security-stack/sg_eks_fs" [
+          label = " sg_eks_fs",
+          fontsize = 12,
+          image = "C:\Program Files\Nodejs\node_modules\cdk-dia\icons\aws\security_group.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.266,
+        ];
+        "eks-security-stack/sg_eks_db" [
+          label = " sg_eks_db",
+          fontsize = 12,
+          image = "C:\Program Files\Nodejs\node_modules\cdk-dia\icons\aws\security_group.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.266,
+        ];
+      }
+    }
+  }
+  "eks-vpc-stack/private-subnet1" -> "eks-vpc-stack/eks_vpc" [
+    dir = "both",
+  ];
+  "eks-vpc-stack/private-subnet2" -> "eks-vpc-stack/eks_vpc" [
+    dir = "both",
+  ];
+  "eks-security-stack/sg_eks_access" -> "eks-vpc-stack/eks_vpc" [
+    dir = "both",
+  ];
+  "eks-security-stack/sg_eks_fs" -> "eks-vpc-stack/eks_vpc" [
+    dir = "both",
+  ];
+  "eks-security-stack/sg_eks_db" -> "eks-vpc-stack/eks_vpc" [
+    dir = "both",
+  ];
+}

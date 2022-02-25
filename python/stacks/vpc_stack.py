@@ -39,8 +39,6 @@ class VPCStack(Stack):
 
         priv_subnets = [subnet.subnet_id for subnet in self.vpc.private_subnets]
 
-        print(priv_subnets)
-
         count = 1
         for ps in priv_subnets:
             ssm.StringParameter(self, 'private-subnet'+str(count),
