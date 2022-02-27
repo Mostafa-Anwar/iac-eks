@@ -22,10 +22,10 @@ app = App()
     
 # )
 
-vpcstack = VPCStack(app, 'eks-vpc', env=f'{constants.DEV_ENV}')
-securitystack = SecurityStack(app, 'eks-security', env=f'{constants.DEV_ENV}', vpc=vpcstack.vpc)
+vpcstack = VPCStack(app, 'eks-vpc', env=constants.DEV_ENV)
+securitystack = SecurityStack(app, 'eks-security', env=constants.DEV_ENV, vpc=vpcstack.vpc)
 
-pipelinestack = Pipeline(app, 'eks-cdk-pipeline', env=f'{constants.DEV_ENV}')
+pipelinestack = Pipeline(app, 'eks-pipeline', env=constants.DEV_ENV)
 
 
 

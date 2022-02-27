@@ -35,6 +35,7 @@ class Pipeline(Stack):
                         synth=ShellStep("Synth",
                             input=codepipeline_source,
                             commands=["npm install -g aws-cdk",
+                                "ls -al && cd python",
                                 "python -m pip install -r requirements.txt",                                 
                                 "cdk synth"]
                             )
