@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 import os
 
-from aws_cdk import Stack, App, Environment
+from aws_cdk import (
+    Stack as Stack,
+    App as App,
+    Environment as envir,
+)
 # from deployment import EKS
 from stacks.vpc_stack import VPCStack
 from stacks.security_stack import SecurityStack
+from pipeline import Pipeline
+import constants
 
-env_dev  = Environment(account='585905982547', region='us-east-1')
-env_test = Environment(account='585905982547', region='us-east-2')
+
 
 app = App()
 
@@ -17,8 +22,11 @@ app = App()
     
 # )
 
-vpcstack = VPCStack(app, 'eks-vpc', env=env_dev)
-securitystack = SecurityStack(app, 'eks-security', env=env_dev, vpc=vpcstack.vpc)
+vpcstack = VPCStack(app, 'eks-vpc', env=f'{constants.DEV_ENV}')
+securitystack = SecurityStack(app, 'eks-security', env=f'{constants.DEV_ENV}', vpc=vpcstack.vpc)
+
+pipelinestack = Pipeline(app, 'eks-cdk-pipeline', env=f'{constants.DEV_ENV}')
+
 
 
 app.synth()
