@@ -1,12 +1,16 @@
 from asyncio import constants
 from aws_cdk import (
+    CfnParameter,
+    Fn,
     aws_codebuild as codebuild,
     pipelines,
-    Stack
+    Stack,
+    CfnOutput
 )
 from aws_cdk.pipelines import CodePipeline, ShellStep
 from constructs import Construct
 import constants
+import config
 
 
 class Pipeline(Stack):
@@ -17,10 +21,13 @@ class Pipeline(Stack):
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
+
+
+        
         codepipeline_source = pipelines.CodePipelineSource.connection(
-                                repo_string=f"{constants.GH_OWNER}/{constants.GH_REPO}",
-                                branch=constants.GH_BRANCH,
-                                connection_arn=constants.GH_CONN,
+                                repo_string=Fn.import_value(config.gh_repo),
+                                branch=Fn.import_value(config.pipeline_branch),
+                                connection_arn=Fn.import_value(config.conn_arn),
         )
         synth_python_version = {
             "phases": {
@@ -29,7 +36,7 @@ class Pipeline(Stack):
                 }
             }
         }
-
+        ## TODO: store the constants in ssm params or CF outputs
         pipeline = CodePipeline(self, "cdk-pipeline",
                         pipeline_name="eks-cdk-pipeline",
                         synth=ShellStep("Synth",
