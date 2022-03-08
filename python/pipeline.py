@@ -5,29 +5,49 @@ from aws_cdk import (
     aws_codebuild as codebuild,
     pipelines,
     Stack,
-    CfnOutput
+    CfnOutput,
+    aws_ssm as ssm
 )
 from aws_cdk.pipelines import CodePipeline, ShellStep
 from constructs import Construct
 import constants
-import config
+#import config
 
 
 class Pipeline(Stack):
     def __init__(self,
         scope: Construct,
         construct_id: str,
+
         **kwargs
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
 
+        # self.ghrepo = ssm.StringParameter.from_string_parameter_name(self, 'gh-repo-param',
+        #         string_parameter_name='gh_repo_string'
+        #         ).string_value
+
+
+        # self.pipebranch = ssm.StringParameter.from_string_parameter_name(self, 'pipeline-branch-param',
+        #         string_parameter_name='pipe_repo'
+        #         ).string_value
+
+
+        # self.connarn = ssm.StringParameter.from_string_parameter_name(self, 'conn-arn-param',
+        #         string_parameter_name='conn_arn'
+        #         ).string_value
+
+        # _param = ssm.StringParameter.value_from_lookup(self, parameter_name=('gh_repo'))
+
+        # if "dummy-value-for" in _param:
+        #     _param = ssm.StringParameter.value_from_lookup(self, parameter_name=('gh_repo'))
 
         
         codepipeline_source = pipelines.CodePipelineSource.connection(
-                                repo_string=Fn.import_value(config.gh_repo),
-                                branch=Fn.import_value(config.pipeline_branch),
-                                connection_arn=Fn.import_value(config.conn_arn),
+                                repo_string=ssm.StringParameter.value_from_lookup(self, parameter_name="gh_repo"),
+                                branch=ssm.StringParameter.value_from_lookup(self, parameter_name="pipe_repo"),
+                                connection_arn=ssm.StringParameter.value_from_lookup(self, parameter_name="conn_arn")
         )
         synth_python_version = {
             "phases": {

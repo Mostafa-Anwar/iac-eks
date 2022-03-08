@@ -5,10 +5,12 @@ from aws_cdk import (
     Stack as Stack,
     App as App,
     Environment as envir,
+    Fn
 )
 # from deployment import EKS
 from stacks.vpc_stack import VPCStack
 from stacks.security_stack import SecurityStack
+from config import SSMStack
 from pipeline import Pipeline
 import constants
 
@@ -22,11 +24,15 @@ app = App()
     
 # )
 
-vpcstack = VPCStack(app, 'eks-vpc', env=constants.DEV_ENV)
-securitystack = SecurityStack(app, 'eks-security', env=constants.DEV_ENV, vpc=vpcstack.vpc)
+#vpcstack = VPCStack(app, 'eks-vpc', env=constants.ENV_DEV)
+#securitystack = SecurityStack(app, 'eks-security', env=constants.ENV_DEV, vpc=vpcstack.vpc)
 
-pipelinestack = Pipeline(app, 'eks-pipeline', env=constants.DEV_ENV)
+ssmstack = SSMStack(app, 'ssm-params', env=constants.ENV_DEV)
 
+# pipelinestack = Pipeline(app, 'eks-pipeline',
+#       env=constants.ENV_DEV
+#       )
+# pipelinestack.add_dependency(ssmstack)
 
 
 app.synth()
