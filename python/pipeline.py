@@ -26,7 +26,7 @@ class Pipeline(Stack):
 
         
         codepipeline_source = pipelines.CodePipelineSource.connection(
-                                repo_string="Mostafa-Anwar/iac-eks",
+                                repo_string=ssm.StringParameter.value_from_lookup(self, parameter_name="gh_repo"),
                                 branch=ssm.StringParameter.value_from_lookup(self, parameter_name="pipe_repo"),
                                 connection_arn=ssm.StringParameter.value_from_lookup(self, parameter_name="conn_arn")
         )
@@ -41,7 +41,6 @@ class Pipeline(Stack):
                         pipeline_name="eks-cdk-pipeline",
                         synth=ShellStep("Synth",
                             input=codepipeline_source,
-                            primary_output_directory="s3://eks-pipeline-shelloutput/output/",
                             commands=["npm install -g aws-cdk",
                                 "ls -al && cd python",
                                 "python -m pip install -r requirements.txt",                                 

@@ -1,4 +1,5 @@
 from aws_cdk import (
+    Tag,
     aws_ec2 as ec2,
     aws_ssm as ssm,
     Stack
@@ -34,7 +35,8 @@ class VPCStack(Stack):
                 )
             ],
             nat_gateways=1,
-            vpc_name="eks-vpc-cdk"
+            vpc_name="eks-vpc-cdk",
+            #### ADD TAGS FOR kubernetes.io/cluster // terraform vpc reference 
         )
 
         priv_subnets = [subnet.subnet_id for subnet in self.vpc.private_subnets]

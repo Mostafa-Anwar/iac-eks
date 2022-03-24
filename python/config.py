@@ -24,7 +24,8 @@ class SSMStack(Stack):
         gh_repo = ssm.StringParameter(self, 'gh-repo',
                 parameter_name='gh_repo',
                 description='pipeline param for gh repo',
-                string_value=str(constants.GH_OWNER+'/'+constants.GH_REPO)
+                string_value=constants.GH_REPO
+            #    string_value=str(constants.GH_OWNER+'/'+constants.GH_REPO)
             )
 
 
