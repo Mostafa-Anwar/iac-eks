@@ -12,3 +12,4 @@ output "sg-eks-access" {
   value       = aws_security_group.sg_eks_access.id
   description = "The ID of the access security group"
 }
+

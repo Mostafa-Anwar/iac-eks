@@ -1,7 +1,7 @@
 ### Create required policies and roles to allow Kubernetes to access different AWS services ###
 
 resource "aws_iam_role" "eks-cluster" {
-  name = "terraform-eks-prod-cluster-role"
+  name = var.eks_cluster_role
 
 
   assume_role_policy = <<POLICY
@@ -34,9 +34,9 @@ resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSVPCResourceContr
 ### Create the EKS cluster ###
 
 resource "aws_eks_cluster" "eks-cluster" {
-  name     = var.cluster-name
+  name     = var.eks_cluster_name
   role_arn = aws_iam_role.eks-cluster.arn
-  version  = var.eks-version
+  version  = var.eks_version
   enabled_cluster_log_types = [
     "api",
     "audit",
@@ -45,8 +45,6 @@ resource "aws_eks_cluster" "eks-cluster" {
     "scheduler",
   ]
   vpc_config {
-    #    security_group_ids  = [aws_security_group.sg-eks-cluster.id]   ## to be deleted
-    #    subnet_ids          = aws_subnet.public-subnets[*].id          ## to be deleted
     security_group_ids = [
       data.terraform_remote_state.net.outputs.sg-eks-access,
     ]

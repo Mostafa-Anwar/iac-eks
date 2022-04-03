@@ -1,14 +1,5 @@
 data "aws_availability_zones" "available" {}
 
-#provider "aws" {
-# profile = "default"
-#  region     = var.region
-#  access_key = var.acc_key
-#  secret_key = var.sec_key
-#}
-
-
-
 # Create VPC for eks-cluster 
 
 resource "aws_vpc" "eks-cluster" {
@@ -17,7 +8,7 @@ resource "aws_vpc" "eks-cluster" {
   tags = tomap(
     {
       Name                                        = var.vpc_name,
-      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
       Project                                     = var.project_name_tag
     }
   )
@@ -31,16 +22,16 @@ resource "aws_subnet" "public-subnets" {
   count = 2
 
   availability_zone       = data.aws_availability_zones.available.names[count.index]
-  cidr_block              = element(var.public-subnet-az, count.index)
+  cidr_block              = element(var.public_subnet_az, count.index)
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.eks-cluster.id
 
 
   tags = tomap(
     {
-      Name                                        = "${var.pub-subs}${count.index + 1}",
+      Name                                        = "${var.pub_subs}${count.index + 1}",
       Tier                                        = "Public",
-      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
       Project                                     = var.project_name_tag
     }
   )
@@ -51,16 +42,16 @@ resource "aws_subnet" "private-subnets" {
   count = 2
 
   availability_zone       = data.aws_availability_zones.available.names[count.index]
-  cidr_block              = element(var.private-subnet-az, count.index)
+  cidr_block              = element(var.private_subnet_az, count.index)
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.eks-cluster.id
 
 
   tags = tomap(
     {
-      Name                                        = "${var.priv-subs}${count.index + 1}",
+      Name                                        = "${var.priv_subs}${count.index + 1}",
       Tier                                        = "Private",
-      "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+      "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
       Project                                     = var.project_name_tag
     }
   )
@@ -105,3 +96,4 @@ resource "aws_route_table_association" "pub-association" {
   route_table_id = aws_route_table.pub-router.id
 
 }
+
