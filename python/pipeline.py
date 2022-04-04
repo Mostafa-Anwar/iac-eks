@@ -26,7 +26,7 @@ class Pipeline(Stack):
 
         
         codepipeline_source = pipelines.CodePipelineSource.connection(
-                                repo_string=ssm.StringParameter.value_from_lookup(self, parameter_name="gh_repo"),
+                                repo_string="Mostafa-Anwar/iac-eks",
                                 branch=ssm.StringParameter.value_from_lookup(self, parameter_name="pipe_repo"),
                                 connection_arn=ssm.StringParameter.value_from_lookup(self, parameter_name="conn_arn")
         )
