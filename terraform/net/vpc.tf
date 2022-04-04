@@ -7,9 +7,9 @@ resource "aws_vpc" "eks-cluster" {
   enable_dns_hostnames = true
   tags = tomap(
     {
-      Name                                        = var.vpc_name,
+      Name                                            = var.vpc_name,
       "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
-      Project                                     = var.project_name_tag
+      Project                                         = var.project_name_tag
     }
   )
 
@@ -29,10 +29,10 @@ resource "aws_subnet" "public-subnets" {
 
   tags = tomap(
     {
-      Name                                        = "${var.pub_subs}${count.index + 1}",
-      Tier                                        = "Public",
+      Name                                            = "${var.pub_subs}${count.index + 1}",
+      Tier                                            = "Public",
       "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
-      Project                                     = var.project_name_tag
+      Project                                         = var.project_name_tag
     }
   )
 }
@@ -49,10 +49,10 @@ resource "aws_subnet" "private-subnets" {
 
   tags = tomap(
     {
-      Name                                        = "${var.priv_subs}${count.index + 1}",
-      Tier                                        = "Private",
+      Name                                            = "${var.priv_subs}${count.index + 1}",
+      Tier                                            = "Private",
       "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared",
-      Project                                     = var.project_name_tag
+      Project                                         = var.project_name_tag
     }
   )
 }

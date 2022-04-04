@@ -26,8 +26,8 @@ resource "aws_security_group" "sg_eks_access" {
   }
 
   tags = {
-    Name    = var.sg_eks_access_name
-    Project = var.project_name_tag
+    Name        = var.sg_eks_access_name
+    Project     = var.project_name_tag
     Environment = var.environment_tag
   }
 }
@@ -42,11 +42,11 @@ resource "aws_security_group" "sg_eks_db" {
   dynamic "ingress" {
     for_each = var.eks_rds_rules
     content {
-      description = "Allow access to the worker nodes"
-      from_port   = ingress.value["port"]
-      to_port     = ingress.value["port"]
-      protocol    = ingress.value["proto"]
-      security_groups  = [aws_security_group.sg_eks_access.id]
+      description     = "Allow access to the worker nodes"
+      from_port       = ingress.value["port"]
+      to_port         = ingress.value["port"]
+      protocol        = ingress.value["proto"]
+      security_groups = [aws_security_group.sg_eks_access.id]
     }
   }
 
@@ -62,8 +62,8 @@ resource "aws_security_group" "sg_eks_db" {
   }
 
   tags = {
-    Name    = var.sg_eks_db_name
-    Project = var.project_name_tag
+    Name        = var.sg_eks_db_name
+    Project     = var.project_name_tag
     Environment = var.environment_tag
   }
 

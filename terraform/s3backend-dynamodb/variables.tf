@@ -219,18 +219,18 @@ variable "key_pair" {
 
 variable "eks_workers_desired_size" {
   description = "EKS Node group autoscaling desired size"
-  default = "3"
+  default     = "3"
 }
 
 
 variable "eks_workers_max_size" {
   description = "EKS Node group autoscaling maximum size"
-  default = "10"
+  default     = "10"
 }
 
 variable "eks_workers_min_size" {
   description = "EKS Node group autoscaling minimum size"
-  default = "3"
+  default     = "3"
 }
 
 

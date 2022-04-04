@@ -24,8 +24,8 @@ resource "aws_instance" "eks_bastion" {
   subnet_id                   = data.terraform_remote_state.net.outputs.sub-pub1
 
   tags = {
-    Name = var.bastion_name_tag
-    Project = var.project_name_tag
+    Name        = var.bastion_name_tag
+    Project     = var.project_name_tag
     Environment = var.environment_tag
   }
 }
