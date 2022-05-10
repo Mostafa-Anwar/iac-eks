@@ -5,6 +5,7 @@ repos:
     - id: terraform_fmt
 #    - id: terraform_tflint
     - id: terraform_docs
+      args: ["markdown", "table", "--output-file", "README.md", "./terraform"]      
 #    - id: checkov
 #    - id: terraform_tfsec
 #    - id: infracost_breakdown
