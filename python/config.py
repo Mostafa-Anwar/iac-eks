@@ -10,7 +10,16 @@ from aws_cdk import (
 )
 from constructs import Construct
 import constants
+from string import Template
 
+
+
+eks_master_role_name = "py-eks-poc-cluster-role"
+eks_node_role_name   = "py-eks-poc-nodegp-role"
+eks_cluster_name     = "poc-eks-cluster"
+eks_nodegroup_name   = "worker-ng"
+eks_instancetype     = "t3.medium"
+eks_ssh_key_name     = "eks-ec2"
 
 class SSMStack(Stack):
     def __init__(self,
