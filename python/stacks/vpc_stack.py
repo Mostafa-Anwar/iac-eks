@@ -38,8 +38,10 @@ class VPCStack(Stack):
             ],
             nat_gateways=config.ngw_number,
             vpc_name=formalize(config.vpc_name),
-            #### ADD TAGS FOR kubernetes.io/cluster // terraform vpc reference 
         )
+
+        #### TODO: ADD TAGS FOR kubernetes.io/cluster // terraform vpc reference 
+
 
         priv_subnets = [subnet.subnet_id for subnet in self.vpc.private_subnets]
 

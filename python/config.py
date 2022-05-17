@@ -1,6 +1,3 @@
-from inspect import Parameter
-from multiprocessing.sharedctypes import Value
-from unicodedata import name
 from aws_cdk import (
     CfnOutput,
     Stack,
@@ -18,19 +15,19 @@ def formalize(string: str):
 
 
 ## VPC Vars
-cidr_range = "172.32.0.0/16"
-azs_number = 2
-ngw_number = 1
-vpc_name = "eks-vpc-cdk"
-# public_subnet_name = "Public"
-# private_subnet_name = "Private"
+cidr_range           = "172.32.0.0/16"
+azs_number           = 2
+ngw_number           = 1
+vpc_name             = "eks-vpc-cdk"
+# pub_subnet_name    = "Public"
+# pvt_subnet_name    = "Private"
 
 
 ## Security Group Vars
-security_stack_name = "eks-security-cdk" 
-sg_access_name = "eks-access"
-sg_fs_name = "eks-fs"
-sg_db_name = "eks-db"
+security_stack_name  = "eks-security-cdk" 
+sg_access_name       = "eks-access"
+sg_fs_name           = "eks-fs"
+sg_db_name           = "eks-db"
 
 
 ## EKS Vars

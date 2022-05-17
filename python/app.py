@@ -28,13 +28,13 @@ app = App()
 # )
 
 # ssmstack = SSMStack(app, 'ssm-params', env=constants.DEV_ENV)
-vpcstack = VPCStack(app,  formalize(config.vpc_name), env=constants.DEV_ENV)
-securitystack = SecurityStack(app, formalize(config.security_stack_name), env=constants.DEV_ENV, vpc=vpcstack.vpc)
-eksstack = EKS(app, 
-    formalize(config.eks_cluster_name),
-    env=constants.DEV_ENV, 
-    vpc=vpcstack.vpc
-    )
+vpcstack        = VPCStack(app,  formalize(config.vpc_name), env=constants.DEV_ENV)
+securitystack   = SecurityStack(app, formalize(config.security_stack_name), env=constants.DEV_ENV, vpc=vpcstack.vpc)
+eksstack        = EKS(app, 
+                    formalize(config.eks_cluster_name),
+                    env=constants.DEV_ENV, 
+                    vpc=vpcstack.vpc
+                    )
 securitystack.add_dependency(vpcstack)
 eksstack.add_dependency(securitystack)
 
