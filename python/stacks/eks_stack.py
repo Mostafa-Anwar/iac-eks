@@ -1,15 +1,12 @@
 from aws_cdk import (
-    Fn,
-    ICfnConditionExpression,
     aws_eks as eks,
     aws_ec2 as ec2,
     aws_iam as iam,
-    CfnCondition as CfnCondition,
     Stack
 )
 from constructs import Construct
-
 import config
+from config import formalize
 
 
 
@@ -20,7 +17,7 @@ class EKS(Stack):
 
         master_role = iam.Role(self, "eks-master-role",
                     assumed_by=iam.ServicePrincipal("eks.amazonaws.com"),
-                    role_name=config.eks_master_role_name,
+                    role_name=formalize(config.eks_master_role_name),
                     managed_policies=[
                         iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEKSClusterPolicy"),
                         iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEKSVPCResourceController")
@@ -29,7 +26,7 @@ class EKS(Stack):
 
         node_role = iam.Role(self, "eks-nodegp-role",
                     assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"),
-                    role_name=config.eks_node_role_name,
+                    role_name=formalize(config.eks_node_role_name),
                     managed_policies=[
                         iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEKSWorkerNodePolicy"),
                         iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEKS_CNI_Policy"),
@@ -40,7 +37,7 @@ class EKS(Stack):
 
 
         cluster =  eks.Cluster(self, "eks-cluster", 
-                    cluster_name=config.eks_cluster_name,
+                    cluster_name=formalize(config.eks_cluster_name),
                     version=eks.KubernetesVersion.V1_21,
                     vpc=vpc,
                     # vpc_subnets=[ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC)],
@@ -55,7 +52,7 @@ class EKS(Stack):
 
         nodegp = eks.Nodegroup(self, "nodegroup",
                     cluster=cluster,
-                    nodegroup_name=config.eks_nodegroup_name,
+                    nodegroup_name=formalize(config.eks_nodegroup_name),
                     remote_access=eks.NodegroupRemoteAccess(
                                   ssh_key_name=config.eks_ssh_key_name),
                     node_role=node_role,
@@ -67,7 +64,7 @@ class EKS(Stack):
                     instance_types=[ec2.InstanceType(config.eks_instancetype)],
                     subnets=ec2.SubnetType.PRIVATE_WITH_NAT,
                     tags={
-                      "Name": config.eks_nodegroup_name
+                      "Name": formalize(config.eks_nodegroup_name)
                     },
                     # taints=[eks.TaintSpec(
                     #     effect=eks.TaintEffect.NO_SCHEDULE,

@@ -13,10 +13,30 @@ import constants
 from string import Template
 
 
+def formalize(string: str):
+    return format((string)+"-"+constants.ENV_NAME+"-"+constants.PROJECT)
 
+
+## VPC Vars
+cidr_range = "172.32.0.0/16"
+azs_number = 2
+ngw_number = 1
+vpc_name = "eks-vpc-cdk"
+# public_subnet_name = "Public"
+# private_subnet_name = "Private"
+
+
+## Security Group Vars
+security_stack_name = "eks-security-cdk" 
+sg_access_name = "eks-access"
+sg_fs_name = "eks-fs"
+sg_db_name = "eks-db"
+
+
+## EKS Vars
 eks_master_role_name = "py-eks-poc-cluster-role"
 eks_node_role_name   = "py-eks-poc-nodegp-role"
-eks_cluster_name     = "poc-eks-cluster"
+eks_cluster_name     = "eks-cluster"
 eks_nodegroup_name   = "worker-ng"
 eks_instancetype     = "t3.medium"
 eks_ssh_key_name     = "eks-ec2"

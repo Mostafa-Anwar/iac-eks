@@ -6,7 +6,9 @@ from aws_cdk import (
 ) 
 
 from constructs import Construct
-
+import config
+from config import formalize
+import constants
 
 class VPCStack(Stack):
 
@@ -14,12 +16,12 @@ class VPCStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
 
-        prj_name = self.node.try_get_context("project_name")
-        env_name = self.node.try_get_context("env")
+        # prj_name = self.node.try_get_context("project_name")
+        # env_name = self.node.try_get_context("env")
 
         self.vpc = ec2.Vpc(self, 'eks_vpc',
-            cidr="172.32.0.0/16",
-            max_azs=2,
+            cidr=config.cidr_range,
+            max_azs=config.azs_number,
             enable_dns_hostnames=True,
             enable_dns_support=True,
             subnet_configuration=[
@@ -34,8 +36,8 @@ class VPCStack(Stack):
                     cidr_mask=24
                 )
             ],
-            nat_gateways=1,
-            vpc_name="eks-vpc-cdk",
+            nat_gateways=config.ngw_number,
+            vpc_name=formalize(config.vpc_name),
             #### ADD TAGS FOR kubernetes.io/cluster // terraform vpc reference 
         )
 
@@ -45,6 +47,6 @@ class VPCStack(Stack):
         for ps in priv_subnets:
             ssm.StringParameter(self, 'private-subnet'+str(count),
                 string_value=ps,
-                parameter_name='/'+env_name+'/p'+str(count)
+                parameter_name='/'+constants.ENV_NAME+'/p'+str(count)
             )
             count += 1

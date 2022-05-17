@@ -14,10 +14,11 @@ GH_OWNER = os.environ["GH_OWNER"]
 GH_REPO = os.environ["GH_REPO"]
 GH_BRANCH = os.environ["GH_BRANCH"]
 
+PROJECT = os.environ["PROJ"]
+ENV_NAME = os.environ["ENV"]
 
-
-ENV_DEV      = Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ['CDK_DEV_REGION'])
-ENV_QA       = Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ['CDK_QA_REGION'])
+DEV_ENV      = Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ['CDK_DEV_REGION'])
+QA_ENV       = Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ['CDK_QA_REGION'])
 PIPELINE_ENV = Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ['CDK_DEV_REGION'])
 
 
