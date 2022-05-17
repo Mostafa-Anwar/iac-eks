@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "terraform_state_buck" {
     }
   }
   tags = {
-    Name        = "prod.eks-terraform.backend.S3"
+    Name        = "${var.backend_state_bucket_tag}"
     Environment = "${var.environment_tag}"
     Project     = "${var.project_name_tag}"
   }
