@@ -1,0 +1,32 @@
+{
+  "app": "python app.py",
+  "watch": {
+    "include": [
+      "**"
+    ],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "requirements*.txt",
+      "source.bat",
+      "**/__init__.py",
+      "python/__pycache__",
+      "tests"
+    ]
+  },
+  "context": {
+    "project_name": "eks",
+    "env": "dev",
+    "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": false,
+    "@aws-cdk/core:stackRelativeExports": false,
+    "@aws-cdk/aws-rds:lowercaseDbIdentifier": false,
+    "@aws-cdk/aws-lambda:recognizeVersionProps": true,
+    "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": false,
+    "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
+    "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
+    "@aws-cdk/core:target-partitions": [
+      "aws",
+      "aws-cn"
+    ]
+  }
+}
