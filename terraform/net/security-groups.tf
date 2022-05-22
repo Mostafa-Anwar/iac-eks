@@ -3,7 +3,7 @@
 resource "aws_security_group" "sg_eks_access" {
   name        = var.sg_eks_access_name
   description = "Security group for the eks-cluster"
-  vpc_id      = aws_vpc.eks-cluster.id
+  vpc_id      = aws_vpc.eks_cluster_vpc.id
   dynamic "ingress" {
     for_each = var.eks_access_rules
     content {
@@ -38,7 +38,7 @@ resource "aws_security_group" "sg_eks_access" {
 resource "aws_security_group" "sg_eks_db" {
   name        = var.sg_eks_db_name
   description = "Security group for RDS"
-  vpc_id      = aws_vpc.eks-cluster.id
+  vpc_id      = aws_vpc.eks_cluster_vpc.id
   dynamic "ingress" {
     for_each = var.eks_rds_rules
     content {

@@ -1,10 +1,20 @@
 output "sub-pub1" {
-  value       = aws_subnet.public-subnets[0].id
+  value       = aws_subnet.public_subnets[0].id
   description = "The ID of the public subnet in az1"
 }
 
 output "sub-pub2" {
-  value       = aws_subnet.public-subnets[1].id
+  value       = aws_subnet.public_subnets[1].id
+  description = "The ID of the public subnet in az2"
+}
+
+output "sub-priv1" {
+  value       = aws_subnet.private_subnets[0].id
+  description = "The ID of the public subnet in az1"
+}
+
+output "sub-priv2" {
+  value       = aws_subnet.private_subnets[1].id
   description = "The ID of the public subnet in az2"
 }
 

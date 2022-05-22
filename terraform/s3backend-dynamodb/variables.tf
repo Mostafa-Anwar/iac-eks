@@ -6,7 +6,7 @@ variable "region" {
 variable "profile" {
   description = "The name of the AWS profile in the credentials file"
   type        = string
-  default     = "XYZ"
+  default     = "XYZA"
 }
 
 
@@ -22,7 +22,7 @@ variable "environment_tag" {
 
 variable "project_name_tag" {
   description = "Tag variable for name of project"
-  default     = "XYZ"
+  default     = "XYZA"
 }
 
 
@@ -31,14 +31,14 @@ variable "project_name_tag" {
 
 variable "backend_state_bucket" {
   description = "S3 bucket for terraform backend dynamodb lock"
-  default     = "xyz-prod-eks-terraform-backend-bucket"
+  default     = "xyza-prod-eks-terraform-backend-bucket"
 }
 
 
 
 variable "backend_state_bucket_tag" {
   description = "S3 bucket name tag for terraform backend dynamodb lock"
-  default     = "xyz-eks-terraform-backend-bucket"
+  default     = "xyza-eks-terraform-backend-bucket"
 }
 
 
@@ -47,7 +47,7 @@ variable "backend_state_bucket_tag" {
 
 variable "stages" {
   type    = list(string)
-  default = ["net", "eks"]
+  default = ["net", "cluster"]
 }
 
 variable "stagecount" {
@@ -72,7 +72,7 @@ variable "dynamo_table_name" {
 
 variable "vpc_name" {
   description = "VPC name for EKS"
-  default     = "XYZ-prod-eks-vpc"
+  default     = "xyza-prod-eks-vpc"
 }
 
 
@@ -110,6 +110,31 @@ variable "pub_subs" {
 
 variable "priv_subs" {
   default = "private-sub-eks-az"
+}
+
+
+variable "natgw_eip_name" {
+  default = "nat-eip"
+}
+
+
+variable "igw_name" {
+  default = "xyza-prod-eks-igw"
+}
+
+
+variable "natgw_name" {
+  default = "xyza-prod-eks-ngw"
+}
+
+
+variable "public_route_table" {
+  default = "xyza-prod-eks-public-router"
+}
+
+
+variable "private_route_table" {
+  default = "xyza-prod-eks-private-router"
 }
 
 
@@ -157,12 +182,12 @@ variable "eks_rds_rules" {
 
 variable "sg_eks_access_name" {
   description = "Security group name for the eks-cluster access sg"
-  default     = "XYZ-prod-eks-access"
+  default     = "XYZA-prod-eks-access"
 }
 
 variable "sg_eks_db_name" {
   description = "Security group name for the RDS"
-  default     = "XYZ-prod-eks-db"
+  default     = "XYZA-prod-eks-db"
 }
 
 
@@ -171,13 +196,29 @@ variable "sg_eks_db_name" {
 
 variable "eks_cluster_name" {
   description = "EKS cluster name"
-  default     = "XYZ-prod-eks-cluster"
+  default     = "XYZA-prod-eks-cluster"
 }
 
 
 variable "eks_cluster_role" {
   description = "EKS control-plane IAM role"
   default     = "terraform-eks-prod-cluster-role"
+}
+
+variable "enabled_log_types" {
+  description = "Logging for EKS Control plane" 
+  default     = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  type        = list(string)
+}
+
+variable "public_endpoint" {
+  description = "To enable public endpoint for the API server"
+  default     = true
+}
+
+variable "private_endpoint" {
+  description = "To enable private endpoint for the API server"
+  default     = true
 }
 
 
@@ -240,7 +281,6 @@ variable "eks_version" {
 
 
 
-
 ### Bastion Host 
 
 variable "bastion-instance-type" {
@@ -249,14 +289,15 @@ variable "bastion-instance-type" {
 
 
 variable "bastion_name_tag" {
-  default = "XYZ-prod-bastion"
+  default = "XYZA-prod-bastion"
 }
 
 
+## EFS
 variable "efs_creation_token" {
-  default = "XYZ-prod-efs"
+  default = "XYZA-prod-efs"
 }
 
 variable "efs_name_tag" {
-  default = "XYZ-prod-efs"
+  default = "XYZA-prod-efs"
 }

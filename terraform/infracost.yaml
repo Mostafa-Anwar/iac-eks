@@ -1,0 +1,24 @@
+version: 0.1
+
+projects:
+  - path: /home/mo/iac-eks/terraform/net
+    # other params
+    terraform_plan_flags: -var-file=net.tfvars
+    # terraform_workspace: default
+    terraform_var_files:
+      - variables.tf
+    terraform_vars:
+      block2_ebs_volume_size: 2000
+    env:
+      AWS_ACCESS_KEY_ID: ${DEF_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${DEF_AWS_SECRET_ACCESS_KEY}
+  - path: /home/mo/iac-eks/terraform/eks
+    terraform_plan_flags: -var-file=cluster.tfvars
+    # terraform_workspace: default
+    terraform_var_files:
+      - variables.tf
+    terraform_vars:
+      block2_ebs_volume_size: 2000
+    env:
+      AWS_ACCESS_KEY_ID: ${DEF_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${DEF_AWS_SECRET_ACCESS_KEY}

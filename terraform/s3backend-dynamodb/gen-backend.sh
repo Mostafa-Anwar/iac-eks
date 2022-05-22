@@ -30,7 +30,7 @@ do
     # write out the backend config
     printf "" > $of
     printf "terraform {\n" >> $of
-    printf "required_version = \"~> 1.0.0\"\n" >> $of
+    printf "required_version = \">= 1.0.0\"\n" >> $of
     printf "required_providers {\n" >> $of
     printf "  aws = {\n" >> $of
     printf "   source = \"hashicorp/aws\"\n" >> $of
@@ -94,7 +94,7 @@ done
 echo "remotes"
 
 # put in place remote state access where required
-cp  generated/remote-net.tf ../eks
+# cp  generated/remote-net.tf ../eks
 
 
 terraform fmt --recursive > /dev/null
