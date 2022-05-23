@@ -280,6 +280,29 @@ variable "eks_version" {
 }
 
 
+variable "fargate_profile_role" {
+  default = "terraform-eks-prod-fargate-role"
+}
+
+
+variable "fargate_profile_count" {
+  type    = number
+  default = 2
+}
+
+variable "fargate_profiles" {
+  type    = list(string)
+  default = ["fargate-1", "fargate-2"]
+}
+
+
+variable "fargate_profiles_namespaces" {
+  type    = list(string)
+  default = ["alpha", "beta"]
+}
+
+
+
 
 ### Bastion Host 
 

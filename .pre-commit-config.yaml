@@ -3,10 +3,11 @@ repos:
   rev: v1.64.1  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
     - id: terraform_fmt
-#    - id: terraform_tflint
     - id: terraform_docs
-      args: ["markdown", "table", "--output-file", "README.md", "./terraform"]      
-#    - id: checkov
+      args: ["markdown", "table", "--output-file", "README.md", "./terraform"]
+    - id: checkov
+      args: ["--directory", "./terraform"]
+    - id: infracost_breakdown
+      args: ["breakdown", "--usage-file", "./terraform/infracost.yaml"]
 #    - id: terraform_tfsec
-#    - id: infracost_breakdown
-    
+#    - id: terraform_tflint

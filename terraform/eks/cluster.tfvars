@@ -40,6 +40,15 @@ eks_workers_min_size        = "1"
 
 eks_version                 = "1.21"
 
+fargate_profile_role        = "terraform-eks-prod-fargate-role"
+
+fargate_profile_count       = "2"
+
+fargate_profiles            = ["fargate-1", "fargate-2"]
+
+fargate_profiles_namespaces = ["alpha", "beta"]
+
+
 
 
 ### Bastion Host   

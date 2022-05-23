@@ -9,4 +9,10 @@ crash.log
 terraform.tfstate
 terraform.tfstate.backup
 README.md
-
+eks/.infracost
+eks/backend-eks.tf
+eks/variables.tf
+eks/remote-net.tf
+net/.infracost
+net/backend-eks.tf
+net/variables.tf
